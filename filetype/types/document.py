@@ -85,7 +85,7 @@ class Msooxml(Type):
             return v, ok
 
         if not(self.compareBytes(buf, self.getByteArray('[Content_Types].xml'), 0x1E)) and not(self.compareBytes(buf, self.getByteArray('_rels/.rels'), 0x1E)):
-            return None, False
+            return 'content', False
 
         hi, lo = unpack('<hh', buf[18:22])
         startOffset = ((hi << 16) | lo) + 49
@@ -136,7 +136,7 @@ class Msooxml(Type):
         if self.compareBytes(buf, self.getByteArray('ppt/'), offset):
             return 'type_pptx', ok
         if self.compareBytes(buf, self.getByteArray('xl/'), offset):
-            return 'type_xsls', ok
+            return 'type_xslx', ok
         ok = False
         return None, ok
 
@@ -148,3 +148,55 @@ class Msooxml(Type):
         if start >= end:
             return -1
         return buf[start:end].find(self.signature)
+
+
+class Docx(Msooxml):
+    """
+    Implements the Microsoft Word Docx
+    """
+    MIME = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+    EXTENSION = 'docx'
+
+    def __init__(self):
+        super(Docx, self).__init__(
+            mime=Docx.MIME,
+            extension=Docx.EXTENSION
+        )
+
+    def match(self, buf):
+        typ, ok = self.isMsooxml(buf)
+        return ok and typ == 'type_docx'
+
+class Xslx(Msooxml):
+    """
+    Implements the Microsoft Word Docx
+    """
+    MIME = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    EXTENSION = 'xslx'
+
+    def __init__(self):
+        super(Xslx, self).__init__(
+            mime=Xslx.MIME,
+            extension=Xslx.EXTENSION
+        )
+
+    def match(self, buf):
+        typ, ok = self.isMsooxml(buf)
+        return ok and typ == 'type_xslx'
+
+class Pptx(Msooxml):
+    """
+    Implements the Microsoft Word Docx
+    """
+    MIME = 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+    EXTENSION = 'pptx'
+
+    def __init__(self):
+        super(Pptx, self).__init__(
+            mime=Pptx.MIME,
+            extension=Pptx.EXTENSION
+        )
+
+    def match(self, buf):
+        typ, ok = self.isMsooxml(buf)
+        return ok and typ == 'type_pptx'

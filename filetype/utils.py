@@ -13,7 +13,7 @@ def get_signature_bytes(path):
         First 262 bytes of the file content as bytearray type.
     """
     with open(path, 'rb') as fp:
-        return bytearray(fp.read(262))
+        return bytearray(fp.read(6000))
 
 
 def signature(array):
@@ -28,7 +28,7 @@ def signature(array):
         First 262 bytes of the file content as bytearray type.
     """
     length = len(array)
-    index = 262 if length > 262 else length
+    index = 6000 if length > 6000 else length
 
     return array[:index]
 

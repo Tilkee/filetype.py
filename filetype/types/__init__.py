@@ -84,7 +84,10 @@ DOCUMENT = (
     document.Doc(),
     document.Xls(),
     document.Ppt(),
+    document.Docx(),
+    document.Xslx(),
+    document.Pptx(),
 )
 
 # Expose supported type matchers
-TYPES = list(IMAGE + AUDIO + FONT + VIDEO + ARCHIVE + DOCUMENT)
+TYPES = list(IMAGE + AUDIO + FONT + VIDEO + DOCUMENT + ARCHIVE)
