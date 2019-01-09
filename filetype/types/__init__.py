@@ -7,6 +7,7 @@ from . import audio
 from . import font
 from . import image
 from . import video
+from . import document
 from .base import Type  # noqa
 
 # Supported image types
@@ -79,5 +80,11 @@ ARCHIVE = (
     archive.Lz(),
 )
 
+DOCUMENT = (
+    document.Doc(),
+    document.Xls(),
+    document.Ppt(),
+)
+
 # Expose supported type matchers
-TYPES = list(IMAGE + AUDIO + FONT + VIDEO + ARCHIVE)
+TYPES = list(IMAGE + AUDIO + FONT + VIDEO + ARCHIVE + DOCUMENT)
