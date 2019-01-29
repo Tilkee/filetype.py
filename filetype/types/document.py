@@ -88,7 +88,8 @@ class Msooxml(Type):
             return 'content', False
 
         hi, lo = unpack('<hh', buf[18:22])
-        startOffset = ((hi << 16) | lo) + 49
+        #startOffset = ((hi << 16) | lo) + 49
+        startOffset = hi + lo + 49
         idx = self.search(buf, startOffset, 6000)
         if idx == -1:
             return None, False
